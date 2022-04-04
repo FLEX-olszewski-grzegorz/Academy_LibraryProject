@@ -1,34 +1,52 @@
-﻿using Academy_LibraryProject.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.IO;
+using Academy_LibraryProject.Model;
 
 namespace Academy_LibraryProject
 {
     internal static class SaveLoadService
     {
+        private const string DatabaseDirectory = "Data";
+
         private const string ReadersDatabaseName = "Readers.json";
         private const string BooksDatabaseName = "Books.json";
         private const string BorrowingDatabaseName = "Borrowing.json";
 
-
         public static bool LoadDatabase(ref List<Reader> readers, ref List<Book> books, ref List<Borrowing> borrowings)
         {
-            readers = LoadListFromFile<Reader>(ReadersDatabaseName);
-            books = LoadListFromFile<Book>(BooksDatabaseName);
-            borrowings = LoadListFromFile<Borrowing>(BorrowingDatabaseName);
+
+            readers = LoadListFromFile<Reader>(GetDatabaseFilePath(ReadersDatabaseName));
+            books = LoadListFromFile<Book>(GetDatabaseFilePath(BooksDatabaseName));
+            borrowings = LoadListFromFile<Borrowing>(GetDatabaseFilePath(BorrowingDatabaseName));
 
             return true;
         }
 
         internal static void SaveDatabase(List<Reader> readers, List<Book> books, List<Borrowing> borrowings)
         {
-            SaveListAsJson(readers, ReadersDatabaseName);
-            SaveListAsJson(books, BooksDatabaseName);
-            SaveListAsJson(borrowings, BorrowingDatabaseName);
+            CreateSaveDirectory();
+
+            SaveListAsJson(readers, GetDatabaseFilePath(ReadersDatabaseName));
+            SaveListAsJson(books, GetDatabaseFilePath(BooksDatabaseName));
+            SaveListAsJson(borrowings, GetDatabaseFilePath(BorrowingDatabaseName));
+        }
+
+        private static string GetDatabaseFilePath(string databaseName)
+        {
+            return Path.Combine(DatabaseDirectory, databaseName);
+        }
+
+        private static void CreateSaveDirectory()
+        {
+            if (!System.IO.Directory.Exists(DatabaseDirectory))
+            {
+                System.IO.Directory.CreateDirectory(DatabaseDirectory);
+            }
         }
 
         private static bool SaveListAsJson<T>(List<T> inputList, string filePath)

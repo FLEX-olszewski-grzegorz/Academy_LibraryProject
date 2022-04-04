@@ -26,12 +26,34 @@ namespace Academy_LibraryProject
             }
         }
 
+        public Reader AddReader(string firstName, string lastName)
+        {
+            int nextId = _database.GetNextIdFor<Reader>();
+            Reader newReader = new Reader()
+            {
+                Id = nextId,
+                FirstName = firstName,
+                LastName = lastName
+            };
+
+            _database.AddReader(newReader);
+
+            return newReader;
+        }
+
+        public bool SaveDatabase()
+        {
+            _database.SaveDatabase();
+
+            return true;
+        }
+
         private void InitalizeAvailableActions()
         {
             _availableActions = new Dictionary<LibraryActions, string>();
-            _availableActions.Add(LibraryActions.BorrowOrReturn, "Borrow/return a book");
-            _availableActions.Add(LibraryActions.AddReader, "Add new reader");
-            _availableActions.Add(LibraryActions.AddBook, "Add new book");
+            _availableActions.Add(LibraryActions.BorrowOrReturn, "Wypożycz/oddaj książkę");
+            _availableActions.Add(LibraryActions.AddReader, "Dodaj nowego czytelnika");
+            _availableActions.Add(LibraryActions.AddBook, "Dodaj nową książkę");
         }
     }
 }

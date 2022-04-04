@@ -36,6 +36,27 @@ namespace Academy_LibraryProject
             _books.Add(book);
         }
 
+        public int GetNextIdFor<T>()
+        {
+            Type typeofInput = typeof(T);
+            if (typeofInput == typeof(Reader))
+            {
+                return _readers.Max(x => x.Id) + 1;
+            }
+            else if (typeofInput == typeof(Book))
+            {
+                return _books.Max(x => x.Id) + 1;
+            }
+            else if (typeofInput == typeof(Borrowing))
+            {
+                return _borrowings.Max(x => x.Id) + 1;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
         public void AddNewBorrowing(Borrowing borrowing)
         {
             _borrowings.Add(borrowing);

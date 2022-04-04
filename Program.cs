@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Academy_LibraryProject.Model;
 
 namespace Academy_LibraryProject
 {
@@ -14,13 +13,18 @@ namespace Academy_LibraryProject
         {
             ShowMainMenu();
 
-            InteractWithUserAtMainMenu();
+            while (InteractWithUserAtMainMenu())
+            {
+
+            }
+
+            _libraryManager.SaveDatabase();
         }
 
         private static void ShowMainMenu()
         {
-            Console.WriteLine("Welcome in LMA (Library Management App)!");
-            Console.WriteLine("How can I serve you?");
+            Console.WriteLine("Witaj w ADZB (Aplikacji do zarządzania biblioteką)!");
+            Console.WriteLine("Jak mogę Ci pomóc?");
             Console.WriteLine(_emptyLine);
 
             foreach (var availableAction in _libraryManager.GetAvailableActions())
@@ -31,35 +35,54 @@ namespace Academy_LibraryProject
             Console.WriteLine(_emptyLine);
         }
 
-        private static void InteractWithUserAtMainMenu()
+        private static bool InteractWithUserAtMainMenu()
         {
             string userInput = Console.ReadLine();
 
-            int? isNumericInput = GetInputAsInteger(userInput);
+            int? isNumericInput = userInput.ParseToInteger();
 
-            if (isNumericInput.HasValue)
+            if (!isNumericInput.HasValue)
             {
-
-
+                return false;
             }
-            else
+
+            if (!Enum.IsDefined(typeof(LibraryActions), isNumericInput.Value))
             {
-                return;
+                Console.WriteLine("Wskaż jedną z dostępnych akcji");
+                Console.WriteLine(_emptyLine);
+                return true;
             }
+
+            LibraryActions action = (LibraryActions)isNumericInput.Value;
+            switch (action)
+            {
+                case LibraryActions.BorrowOrReturn:
+                    break;
+                case LibraryActions.AddReader:
+                    AddNewReader();
+                    break;
+                case LibraryActions.AddBook:
+                    break;
+                default:
+                    break;
+            }
+
+            return true;
         }
 
-        private static int? GetInputAsInteger(string userInput)
+        private static void AddNewReader()
         {
-            int numericInput;
+            Console.WriteLine(_emptyLine);
+            Console.WriteLine("Podaj imię nowego cztelnika:");
+            string firstName = Console.ReadLine();
 
-            if (int.TryParse(userInput, out numericInput))
-            {
-                return numericInput;
-            }
-            else
-            {
-                return null;
-            }
+            Console.WriteLine("Podaj nazwisko nowego cztelnika:");
+            string lastName = Console.ReadLine();
+
+            Model.Reader reader = _libraryManager.AddReader(firstName, lastName);
+            Console.WriteLine();
+            Console.WriteLine($"Dodałem czytelnika: {reader}");
+            Console.WriteLine(_emptyLine);
         }
     }
 }
