@@ -10,10 +10,12 @@ namespace Academy_LibraryProject
     internal class LibraryManager
     {
         private Dictionary<LibraryActions, string> _availableActions;
+        private LibraryDatabase _database;
 
         public LibraryManager()
         {
             InitalizeAvailableActions();
+            _database = new LibraryDatabase();
         }
 
         public IEnumerable<string> GetAvailableActions()
