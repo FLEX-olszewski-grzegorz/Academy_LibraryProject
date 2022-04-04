@@ -36,27 +36,6 @@ namespace Academy_LibraryProject
             _books.Add(book);
         }
 
-        public int GetNextIdFor<T>()
-        {
-            Type typeofInput = typeof(T);
-            if (typeofInput == typeof(Reader))
-            {
-                return _readers.Max(x => x.Id) + 1;
-            }
-            else if (typeofInput == typeof(Book))
-            {
-                return _books.Max(x => x.Id) + 1;
-            }
-            else if (typeofInput == typeof(Borrowing))
-            {
-                return _borrowings.Max(x => x.Id) + 1;
-            }
-            else
-            {
-                return -1;
-            }
-        }
-
         public void AddNewBorrowing(Borrowing borrowing)
         {
             _borrowings.Add(borrowing);
@@ -65,6 +44,37 @@ namespace Academy_LibraryProject
         public void CloseBorrowing(Borrowing borrowing)
         {
             _borrowings.Remove(borrowing);
+        }
+
+        public int GetNextIdFor<T>()
+        {
+            Type typeofInput = typeof(T);
+            if (typeofInput == typeof(Reader))
+            {
+                return _readers.Count == 0 ? 1 : _readers.Max(x => x.Id) + 1;
+            }
+            else if (typeofInput == typeof(Book))
+            {
+                return _books.Count == 0 ? 1 : _books.Max(x => x.Id) + 1;
+            }
+            else if (typeofInput == typeof(Borrowing))
+            {
+                return _borrowings.Count == 0 ? 1 : _borrowings.Max(x => x.Id) + 1;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
+        public Reader GetReader(int id)
+        {
+            return _readers.FirstOrDefault(x => x.Id == id);
+        }
+
+        public Book GetBook(int id)
+        {
+            return _books.FirstOrDefault(x => x.Id == id);
         }
     }
 }
