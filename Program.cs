@@ -120,8 +120,8 @@ namespace Academy_LibraryProject
             Console.WriteLine("Podaj autora nowej książki:");
             string author = Console.ReadLine();
 
-            Book book = null;
-            //book = _libraryManager.AddBook(title, author);
+            
+            Book book = _libraryManager.AddBook(title, author);
             Console.WriteLine();
             Console.WriteLine($"Dodałem książkę: {book}");
             Console.WriteLine(_emptyLine);
