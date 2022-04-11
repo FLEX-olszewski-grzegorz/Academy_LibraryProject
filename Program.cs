@@ -14,8 +14,6 @@ namespace Academy_LibraryProject
         {
             ShowMainMenu();
             
-            TestMethod
-
             while (InteractWithUserAtMainMenu())
             {
 
