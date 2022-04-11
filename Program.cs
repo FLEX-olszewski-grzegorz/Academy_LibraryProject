@@ -13,6 +13,8 @@ namespace Academy_LibraryProject
         static void Main(string[] args)
         {
             ShowMainMenu();
+            
+            TestMethod
 
             while (InteractWithUserAtMainMenu())
             {
