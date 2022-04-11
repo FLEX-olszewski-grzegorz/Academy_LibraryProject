@@ -11,5 +11,6 @@ namespace Academy_LibraryProject
         BorrowOrReturn=1,
         AddReader,
         AddBook
+        ShowReaders
     }
 }

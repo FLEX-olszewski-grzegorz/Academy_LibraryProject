@@ -84,6 +84,7 @@ namespace Academy_LibraryProject
             _availableActions.Add(LibraryActions.BorrowOrReturn, "Wypożycz/oddaj książkę");
             _availableActions.Add(LibraryActions.AddReader, "Dodaj nowego czytelnika");
             _availableActions.Add(LibraryActions.AddBook, "Dodaj nową książkę");
+            _availableActions.Add(LibraryActions.ShowReaders, "Wyświetl użytkowników");
         }
 
         internal Reader GetReader(int value)
